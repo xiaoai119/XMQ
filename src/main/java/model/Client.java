@@ -1,8 +1,9 @@
-package consumer;
+package model;
 
 import common.Message;
 import util.SerializeUtil;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -38,5 +39,23 @@ public class Client {
         socketChannel.close();
     }
 
-
+    public byte[] receive(){
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        try {
+            while (socketChannel.isOpen() && socketChannel.read(buffer) != -1) {
+                buffer.clear();
+                int len = socketChannel.read(buffer);
+                if (len == -1)
+                    break;
+                buffer.flip();
+                while (buffer.hasRemaining()) {
+                    bos.write(buffer.get());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("连接失败");
+        }
+        return bos.toByteArray();
+    }
 }

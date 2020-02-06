@@ -2,8 +2,6 @@ package common;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,7 +11,7 @@ public class Topic implements Serializable{
 	private static final long serialVersionUID = -3115497946567476212L;
 
 	private ArrayList<Integer> queueIdList;
-	private ArrayList<ConsumerNode> consumerNodeList;
+	private ArrayList<IpNode> ipNodeList;
 	String topic_name;
 	int queueNum;
 
@@ -21,12 +19,12 @@ public class Topic implements Serializable{
 		topic_name = s;
 		this.queueNum = queueNum;
 		queueIdList = new ArrayList<Integer>();
-		consumerNodeList = new ArrayList<ConsumerNode>();
+		ipNodeList = new ArrayList<IpNode>();
 	}
-	public Topic(String s, ArrayList<Integer> queueIdList, ArrayList<ConsumerNode> consumerNodeList) {
+	public Topic(String s, ArrayList<Integer> queueIdList, ArrayList<IpNode> ipNodeList) {
 		topic_name = s;
 		this.queueIdList = queueIdList;
-		this.consumerNodeList = consumerNodeList;
+		this.ipNodeList = ipNodeList;
 	}
 
 	public String getTopicName() {
@@ -35,14 +33,14 @@ public class Topic implements Serializable{
 	public List<Integer> getQueue() {
 		return queueIdList;
 	}
-	public List<ConsumerNode> getConsumer(){
-		return consumerNodeList;
+	public List<IpNode> getConsumer(){
+		return ipNodeList;
 	}
-	public void addConsumer(ConsumerNode node) {
-		consumerNodeList.add(node);
+	public void addConsumer(IpNode node) {
+		ipNodeList.add(node);
 	}
-	public void deleteConsumer(ConsumerNode ipnode) {
-		consumerNodeList.remove(ipnode);
+	public void deleteConsumer(IpNode ipnode) {
+		ipNodeList.remove(ipnode);
 	}
 	public void addQueueId(int i) {
 		queueIdList.add(i);

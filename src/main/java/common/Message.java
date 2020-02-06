@@ -1,7 +1,6 @@
 package common;
 
 import java.io.Serializable;
-import java.util.Scanner;
 
 /**
  * Created By xfj on 2020/2/5
@@ -11,7 +10,7 @@ public class Message implements Serializable {
     public String message;//消息
     public int type;//消息类型
     public Topic topic;//消息主题
-    ConsumerNode node;
+    IpNode node;
     private int MAX_LENGTH=99999;
 
     //构造函数

@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class PushMessage extends Message implements Serializable{
     private static final long serialVersionUID = 3431254115468157492L;
     private static final int type = MessageType.REGISTER;
-    public PushMessage(ConsumerNode node,String message,int num) {
+    public PushMessage(IpNode node, String message, int num) {
         this.num = num;
         this.node = node;
         this.message = message;
