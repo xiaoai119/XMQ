@@ -68,10 +68,7 @@ public class Message implements Serializable {
     }
 
     public void setType(int type) {
-        if(MessageType.contains(type))
-            this.type = type;
-        else// 默认消息类型为1
-            this.setType(MessageType.REPLY_EXPECTED);
+        this.type = type;
     }
 
     public Topic getTopic() {

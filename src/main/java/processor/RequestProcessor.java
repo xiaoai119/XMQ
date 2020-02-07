@@ -28,9 +28,10 @@ public class RequestProcessor implements Processor{
                     // I/O读数据操作
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    int len = 0;
                     while (true) {
                         buffer.clear();
-                        int len = readChannel.read(buffer);
+                        len = readChannel.read(buffer);
                         if (len == -1) break;
                         buffer.flip();
                         while (buffer.hasRemaining()) {
@@ -38,12 +39,10 @@ public class RequestProcessor implements Processor{
                         }
                     }
                     //System.out.println("服务器端接收到的数据："+ new String(baos.toByteArray()));
-
                     //将数据添加到key中
                     key.attach(baos);
                     //将注册写操作添加到队列中
                     server.addWriteQueen(key);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

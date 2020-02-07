@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class Server {
     ServerSocketChannel serverSocketChannel = null;
-    //存储SelectionKey的队列
+    //写任务队列
     private List<SelectionKey> writeQueen = new ArrayList<SelectionKey>();
     private Selector selector = null;
     private RequestProcessor requestProcessor;
@@ -35,6 +35,8 @@ public class Server {
     public void addWriteQueen(SelectionKey key) {
         synchronized (this) {
             writeQueen.add(key);
+            //若select阻塞，则唤醒,以保证后续处理写事件
+            selector.wakeup();
         }
     }
 
@@ -80,9 +82,7 @@ public class Server {
                     if (key.isAcceptable()) {
                         ServerSocketChannel ssChannel = (ServerSocketChannel) key.channel();
                         SocketChannel socketChannel = ssChannel.accept();
-
 //                        System.out.println("处理请求："+ socketChannel.getRemoteAddress());
-
                         // 获取客户端的数据
                         // 设置非阻塞状态
                         socketChannel.configureBlocking(false);
@@ -95,13 +95,14 @@ public class Server {
                         //调用读操作工具类
                         requestProcessor.processorRequest(key, this);
                     } else if (key.isWritable()) {
-                        //取消读事件的监控
+                        //取消写事件的监控
                         key.cancel();
                         //调用写操作工具类
                         responseProcessor.processResponse(key);
                     }
                 }
             } else {
+                //若无可用通道，添加写事件
                 synchronized (this) {
                     while (writeQueen.size() > 0) {
                         SelectionKey key = writeQueen.remove(0);

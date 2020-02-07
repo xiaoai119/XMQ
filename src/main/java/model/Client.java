@@ -39,6 +39,11 @@ public class Client {
         socketChannel.close();
     }
 
+    public byte[] SyscSendMessage(Message msg) throws IOException{
+        sendMessage(msg);
+        return receive();
+    }
+
     public byte[] receive(){
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ByteBuffer buffer = ByteBuffer.allocate(1024);

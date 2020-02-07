@@ -21,8 +21,8 @@ public class NIOServer {
 
         // 2. 构建一个Selector选择器,并且将channel注册上去
         Selector selector = Selector.open();
-        SelectionKey selectionKey = serverSocketChannel.register(selector, 0, serverSocketChannel);// 将serverSocketChannel注册到selector
-        selectionKey.interestOps(SelectionKey.OP_ACCEPT); // 对serverSocketChannel上面的accept事件感兴趣(serverSocketChannel只能支持accept操作)
+        SelectionKey selectionKey = serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT, serverSocketChannel);// 将serverSocketChannel注册到selector
+//        selectionKey.interestOps(SelectionKey.OP_ACCEPT); // 对serverSocketChannel上面的accept事件感兴趣(serverSocketChannel只能支持accept操作)
 
         // 3. 绑定端口
         serverSocketChannel.socket().bind(new InetSocketAddress(8080));
@@ -58,6 +58,7 @@ public class NIOServer {
                             // 长连接情况下,需要手动判断数据有没有读取结束 (此处做一个简单的判断: 超过0字节就认为请求结束了)
                             if (requestBuffer.position() > 0) break;
                         }
+                        System.out.println("test");
                         if(requestBuffer.position() == 0) continue; // 如果没数据了, 则不继续后面的处理
                         requestBuffer.flip();
                         byte[] content = new byte[requestBuffer.limit()];
@@ -74,6 +75,7 @@ public class NIOServer {
                         while (buffer.hasRemaining()) {
                             socketChannel.write(buffer);
                         }
+//                        key.cancel();
                     } catch (IOException e) {
                         // e.printStackTrace();
                         key.cancel(); // 取消事件订阅
