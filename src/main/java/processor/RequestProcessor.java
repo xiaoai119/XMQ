@@ -28,11 +28,9 @@ public class RequestProcessor implements Processor{
                     // I/O读数据操作
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    int len = 0;
                     while (true) {
                         buffer.clear();
-                        len = readChannel.read(buffer);
-                        if (len == -1) break;
+                        if (readChannel.read(buffer) == -1) break;
                         buffer.flip();
                         while (buffer.hasRemaining()) {
                             baos.write(buffer.get());

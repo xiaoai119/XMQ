@@ -1,5 +1,8 @@
 package processor;
 
+import common.Message;
+import util.SerializeUtil;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -26,14 +29,15 @@ public class ResponseProcessor implements Processor{
                     //拿到客户端传递的数据
                     ByteArrayOutputStream attachment = (ByteArrayOutputStream)key.attachment();
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
+                    Message m = (Message)SerializeUtil.Byte2Obj(attachment.toByteArray());
                     System.out.println("服务器收到："+new String(attachment.toByteArray()));
                     String message = new String(attachment.toByteArray())+"ACK";
                     buffer.put(message.getBytes());
                     buffer.flip();
                     writeChannel.write(buffer);
-                } catch (IOException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
-                }finally {
+                } finally {
                     try {
                         writeChannel.close();
                     } catch (IOException e) {

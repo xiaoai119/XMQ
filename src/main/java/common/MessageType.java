@@ -13,4 +13,5 @@ public class MessageType {
 	public static final int REQUEST_QUEUE = 2;
 	public static final int REGISTER = 3;
 	public static final int PULL = 4;
+	public static final int ACK = 5;
 }

@@ -13,12 +13,12 @@ public class TestClient {
     public static void main(String[] args) throws IOException, InterruptedException {
         Client client = new Client("127.0.0.1",8080);
         client.init();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         byte[] receive = client.SyscSendMessage(new Message("test", MessageType.REGISTER, 1));
+
+        byte[] receive1 = client.SyscSendMessage(new Message("test", MessageType.REGISTER, 2));
         System.out.println(new String(receive));
-        if (receive.length!=0){
-            System.out.println(new String(receive));
-        }
+        System.out.println(new String(receive1));
 //        byte[] receive = client.receive();
 //        System.out.println(new String(receive));
 

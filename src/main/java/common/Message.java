@@ -6,11 +6,15 @@ import java.io.Serializable;
  * Created By xfj on 2020/2/5
  */
 public class Message implements Serializable {
-    public int num;//消息序号
-    public String message;//消息
-    public int type;//消息类型
-    public Topic topic;//消息主题
+    static final long serialVersionUID = 567109373083056917L;
+    int num;//消息序号
+    String message;//消息
+    int type;//消息类型
+    Topic topic;//消息主题
+
+
     IpNode node;
+
     private int MAX_LENGTH=99999;
 
     //构造函数
