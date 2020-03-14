@@ -3,9 +3,6 @@ package processor;
 import common.Message;
 import common.MessageType;
 import consumer.ConsumerFactory;
-import processor.Processor;
-import processor.RequestProcessor;
-import processor.ResponseProcessor;
 import util.SerializeUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -17,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ConsumerResponeProcessor extends ResponseProcessor {
+public class ConsumerResponeProcessorDefault extends DefaultResponseProcessor {
 
     private static ExecutorService executorService = Executors.newFixedThreadPool(10000);
 
@@ -29,14 +26,14 @@ public class ConsumerResponeProcessor extends ResponseProcessor {
                 try {
                     writeChannel = (SocketChannel) key.channel();
                     ByteArrayOutputStream attachment = (ByteArrayOutputStream)key.attachment();
-                    Message msg = (Message)SerializeUtil.Byte2Obj(attachment.toByteArray());
+                    Message msg = (Message)SerializeUtil.byte2Obj(attachment.toByteArray());
                     ConcurrentLinkedQueue<Message> list = ConsumerFactory.getList(port);
                     list.add(msg);
                     if(msg.getType()==MessageType.REPLY_EXPECTED) {
                         //回复消息
                         ByteBuffer buffer = ByteBuffer.allocate(1024);
                         msg.setType(MessageType.ACK);
-                    	buffer.put(SerializeUtil.Obj2Byte(msg));
+                    	buffer.put(SerializeUtil.obj2Byte(msg));
                         buffer.flip();
                         writeChannel.write(buffer);
                     }

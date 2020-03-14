@@ -1,8 +1,8 @@
 package test;
 
 import model.Server;
-import processor.RequestProcessor;
-import processor.ResponseProcessor;
+import processor.DefaultRequestProcessor;
+import processor.DefaultResponseProcessor;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class TestServer {
     public static void main(String[] args) throws IOException {
-        Server server = new Server(8080, new RequestProcessor(), new ResponseProcessor());
+        Server server = new Server(8080, new DefaultRequestProcessor(), new DefaultResponseProcessor());
 
     }
 }

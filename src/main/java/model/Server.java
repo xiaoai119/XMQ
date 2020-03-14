@@ -1,5 +1,8 @@
 package model;
 
+import broker.Broker;
+import processor.DefaultRequestProcessor;
+import processor.DefaultResponseProcessor;
 import processor.RequestProcessor;
 import processor.ResponseProcessor;
 
@@ -24,10 +27,18 @@ public class Server {
     private Selector selector = null;
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
+    private Broker broker;
 
-    public Server(int port, RequestProcessor requestProcessor, ResponseProcessor responeProcessor) throws IOException {
+    public Server(int port, DefaultRequestProcessor defaultRequestProcessor, DefaultResponseProcessor responeProcessor) throws IOException {
+        this.requestProcessor = defaultRequestProcessor;
+        this.responseProcessor = responeProcessor;
+        init(port);
+    }
+
+    public Server(int port, RequestProcessor requestProcessor, ResponseProcessor responeProcessor, Broker broker) throws IOException {
         this.requestProcessor = requestProcessor;
         this.responseProcessor = responeProcessor;
+        this.broker = broker;
         init(port);
     }
 

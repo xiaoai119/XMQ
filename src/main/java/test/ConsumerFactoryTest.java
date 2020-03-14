@@ -23,7 +23,7 @@ public class ConsumerFactoryTest {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    ConsumerFactory.Pull(ipNode1,ipNode2);
+                    ConsumerFactory.pull(ipNode1,ipNode2);
                 }
             };
         }.start();

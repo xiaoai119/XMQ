@@ -13,4 +13,16 @@ public class PullMessage extends Message implements Serializable{
         this.node = ipNode;
         this.message = message;
     }
+    public IpNode getIpNode() {
+        return node;
+    }
+    public int getNum() {
+        return num;
+    }
+    public int getType() {
+        return type;
+    }
+    public String getMessage() {
+        return message;
+    }
 }

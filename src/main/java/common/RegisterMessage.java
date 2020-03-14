@@ -13,4 +13,17 @@ public class RegisterMessage extends Message implements Serializable{
         this.node = node;
         this.message = message;
     }
+    public IpNode getIpNode() {
+        return node;
+    }
+    public int getNum() {
+        return num;
+    }
+    public int getType() {
+        return type;
+    }
+    public String getMessage() {
+        return message;
+    }
+
 }

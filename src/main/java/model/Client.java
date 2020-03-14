@@ -31,7 +31,7 @@ public class Client {
     }
 
     public void sendMessage(Message msg) throws IOException {
-        byte[] bytes = SerializeUtil.Obj2Byte(msg);
+        byte[] bytes = SerializeUtil.obj2Byte(msg);
         //写数据
         ByteBuffer buffer=ByteBuffer.allocate(1024*1024);
         buffer.clear();

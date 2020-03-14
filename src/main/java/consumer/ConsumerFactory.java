@@ -5,8 +5,8 @@ import common.Message;
 import common.PullMessage;
 import common.RegisterMessage;
 import model.Client;
-import processor.ConsumerResponeProcessor;
-import processor.RequestProcessor;
+import processor.ConsumerResponeProcessorDefault;
+import processor.DefaultRequestProcessor;
 import model.Server;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,14 +16,15 @@ public class ConsumerFactory {
 	//记录每个端口以及对应的消息队列
 	private static ConcurrentHashMap<Integer, ConcurrentLinkedQueue<Message>> map = new ConcurrentHashMap<Integer,ConcurrentLinkedQueue<Message>>();
 
+	//创建server，等待broker的消息
 	private static void waiting(int port) throws IOException {
-		RequestProcessor requestProcessor = new RequestProcessor();
-		ConsumerResponeProcessor consumerResponeProcessor = new ConsumerResponeProcessor();
+		DefaultRequestProcessor defaultRequestProcessor = new DefaultRequestProcessor();
+		ConsumerResponeProcessorDefault consumerResponeProcessor = new ConsumerResponeProcessorDefault();
 		new Thread(){
             public void run() {
             	System.out.println("Consumer在本地端口"+port+"监听...");
             	try {
-					new Server(port,requestProcessor,consumerResponeProcessor);
+					new Server(port, defaultRequestProcessor,consumerResponeProcessor);
 				} catch (IOException e) {
 					System.out.println("端口已被占用");
 					}
@@ -31,7 +32,7 @@ public class ConsumerFactory {
 		}.start();
 	}
 
-    //向Broker注册
+    //向Broker注册，作为client发送注册消息
 	private static void register(IpNode ipNode1,IpNode ipNode2){
         System.out.println("正在注册Consumer...");
         Client client;
@@ -58,7 +59,8 @@ public class ConsumerFactory {
 		return ConsumerFactory.getList(port).poll();
 	}
 
-	public static void Pull(IpNode ipNode1,IpNode ipNode2) {
+
+	public static void pull(IpNode ipNode1,IpNode ipNode2) {
 		System.out.println("正在拉取消息");
 		Client client;
 		try {
@@ -70,9 +72,9 @@ public class ConsumerFactory {
         		if(m!=null) {
         			System.out.println("消息拉取成功");
         			System.out.println(m.getMessage());
-        		}else 
+        		}else
         			System.out.println("消息拉取失败");
-    				
+
 			}
 		} catch (IOException e) {
 			System.out.println("Connection Refuse.");
@@ -83,7 +85,7 @@ public class ConsumerFactory {
 			System.out.println("端口已被占用!");
 			return;
 		}
-//		ConsumerFactory.register(ipNode1,ipNode2);
+		ConsumerFactory.register(ipNode1,ipNode2);
 		ConsumerFactory.waiting(ipNode2.getPort());
 		try {
 			Thread.sleep(2000);
@@ -91,6 +93,7 @@ public class ConsumerFactory {
 			e.printStackTrace();
 		}
 		ConsumerFactory.register(ipNode1,ipNode2);
+
 		map.put(ipNode2.getPort(), new ConcurrentLinkedQueue<Message>());
 	}
 }
