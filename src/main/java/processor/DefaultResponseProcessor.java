@@ -28,7 +28,7 @@ public class DefaultResponseProcessor implements ResponseProcessor{
                 ByteArrayOutputStream attachment = (ByteArrayOutputStream)key.attachment();
                 ByteBuffer buffer = ByteBuffer.allocate(1024);
                 Message m = (Message)SerializeUtil.byte2Obj(attachment.toByteArray());
-                System.out.println("服务器收到："+new String(attachment.toByteArray()));
+
                 String message = new String(attachment.toByteArray())+"ACK";
                 buffer.put(message.getBytes());
                 buffer.flip();

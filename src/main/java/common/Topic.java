@@ -12,23 +12,23 @@ public class Topic implements Serializable{
 
 	private ArrayList<Integer> queueIdList;
 	private ArrayList<IpNode> ipNodeList;
-	String topic_name;
+	String topicName;
 	int queueNum;
 
 	public Topic(String s, int queueNum) {
-		topic_name = s;
+		topicName = s;
 		this.queueNum = queueNum;
 		queueIdList = new ArrayList<Integer>();
 		ipNodeList = new ArrayList<IpNode>();
 	}
 	public Topic(String s, ArrayList<Integer> queueIdList, ArrayList<IpNode> ipNodeList) {
-		topic_name = s;
+		topicName = s;
 		this.queueIdList = queueIdList;
 		this.ipNodeList = ipNodeList;
 	}
 
 	public String getTopicName() {
-		return topic_name;
+		return topicName;
 	}
 	public List<Integer> getQueue() {
 		return queueIdList;

@@ -5,7 +5,7 @@ import common.Message;
 import common.PullMessage;
 import common.RegisterMessage;
 import model.Client;
-import processor.ConsumerResponeProcessorDefault;
+import processor.ConsumerResponeProcessor;
 import processor.DefaultRequestProcessor;
 import model.Server;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class ConsumerFactory {
 	//创建server，等待broker的消息
 	private static void waiting(int port) throws IOException {
 		DefaultRequestProcessor defaultRequestProcessor = new DefaultRequestProcessor();
-		ConsumerResponeProcessorDefault consumerResponeProcessor = new ConsumerResponeProcessorDefault();
+		ConsumerResponeProcessor consumerResponeProcessor = new ConsumerResponeProcessor();
 		new Thread(){
             public void run() {
             	System.out.println("Consumer在本地端口"+port+"监听...");
@@ -41,7 +41,6 @@ public class ConsumerFactory {
             client = new Client(ipNode1.getIp(), ipNode1.getPort());
             RegisterMessage msg = new RegisterMessage(ipNode2, "register", 1);
 			byte[] bytes = client.SyscSendMessage(msg);
-			System.out.println("test");
 			if(client.SyscSendMessage(msg)!=null)
                 System.out.println("注册成功...");
             else
@@ -87,13 +86,6 @@ public class ConsumerFactory {
 		}
 		ConsumerFactory.register(ipNode1,ipNode2);
 		ConsumerFactory.waiting(ipNode2.getPort());
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		ConsumerFactory.register(ipNode1,ipNode2);
-
 		map.put(ipNode2.getPort(), new ConcurrentLinkedQueue<Message>());
 	}
 }

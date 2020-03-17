@@ -109,7 +109,12 @@ public class Server {
                         //取消写事件的监控
                         key.cancel();
                         //调用写操作工具类
-                        responseProcessor.processResponse(key);
+                        if("processor.BrokerResponeProcessor".equals(responseProcessor.getClass().getName()))
+                            responseProcessor.processResponse(key,broker);
+                        else if("processor.ConsumerResponeProcessor".equals(responseProcessor.getClass().getName()))
+                            responseProcessor.processResponse(key,port);
+                        else
+                            responseProcessor.processResponse(key);
                     }
                 }
             } else {

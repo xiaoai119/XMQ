@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ConsumerResponeProcessorDefault extends DefaultResponseProcessor {
+public class ConsumerResponeProcessor extends DefaultResponseProcessor {
 
     private static ExecutorService executorService = Executors.newFixedThreadPool(10000);
 
